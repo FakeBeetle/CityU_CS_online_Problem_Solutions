@@ -48,8 +48,8 @@ public:
 			newnode->setData(A[i]);
 			current = newnode;
 			++i;
-			current->setNext(this->head);
 		}
+		current->setNext(this->head);
 	}
 	ListNode* getHead() {
 		return this->head;
@@ -74,7 +74,7 @@ public:
 		++(this->length);
 	}
 
-	void insert_by_order(ListNode* newnode) {//°´Ë³Ğò²åÈë
+	void insert_by_order(ListNode* newnode) {//Â°Â´Ã‹Â³ÃÃ²Â²Ã¥ÃˆÃ«
 		if (this->head == NULL) {
 			this->head = newnode;
 			this->head->setNext(this->head);
