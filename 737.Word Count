@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
 #include <map>
 #include <utility>
 using std::cin;
@@ -10,24 +9,13 @@ using std::map;
 using std::string;
 using std::vector;
 using std::pair;
-void insertion_sort(map<string, int> A) {
-	for (map<string, int>::iterator i = A.begin(); i != A.end(); ++i) {
-		map<string, int>::iterator j = i;
-		while (j != A.begin()) {
-			if (j->second < i->second) {
-				pair<string,int> temp(i->first,i->second);
 
-			}
-				--j;
-		}
-	}
-};
 
-int main(){
+int main() {
 	map<string, int> words;
 	string word;
 	while (cin >> word) {
-		map<string, int>::iterator find_word = words.find(word);
+		map<string, int>::iterator find_word = words.find(word);//map会自己按键排序，非常牛批
 		if (find_word == words.end()) {
 			words.insert(pair<string, int>(word, 1));
 		}
@@ -35,7 +23,13 @@ int main(){
 			++find_word->second;
 		}
 	}
-	
+	for (map<string, int>::iterator i = words.begin(); i != words.end(); ++i) {
+		cout << i->first << " " << i->second << "\n";
+	}
+	return 0;
+
+
+}
+
 
 	
-}
