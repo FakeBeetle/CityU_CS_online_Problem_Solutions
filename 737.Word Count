@@ -2,23 +2,40 @@
 #include <string>
 #include <vector>
 
+#include <map>
+#include <utility>
 using std::cin;
 using std::cout;
+using std::map;
 using std::string;
 using std::vector;
-int main() {
-	vector<string> input;
-	string s;
-	while (cin >> s) {
-		input.push_back(s);
-	}
-	for (vector<string>::iterator iter = input.begin(); iter != input.end(); iter++) {
+using std::pair;
+void insertion_sort(map<string, int> A) {
+	for (map<string, int>::iterator i = A.begin(); i != A.end(); ++i) {
+		map<string, int>::iterator j = i;
+		while (j != A.begin()) {
+			if (j->second < i->second) {
+				pair<string,int> temp(i->first,i->second);
 
+			}
+				--j;
+		}
+	}
+};
+
+int main(){
+	map<string, int> words;
+	string word;
+	while (cin >> word) {
+		map<string, int>::iterator find_word = words.find(word);
+		if (find_word == words.end()) {
+			words.insert(pair<string, int>(word, 1));
+		}
+		else {
+			++find_word->second;
+		}
 	}
 	
-	
 
+	
 }
-
-
-	
