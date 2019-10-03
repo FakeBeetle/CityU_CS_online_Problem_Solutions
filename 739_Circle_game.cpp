@@ -173,7 +173,7 @@ int main() {
 		}
 		if (operation_type == 3) {
 			cin >> location;
-			std::cout << students.search_at(location)->getData();
+			std::cout << students.search_at(location)->getData()<<"\n";
 		}
 	}
 	return 0;
