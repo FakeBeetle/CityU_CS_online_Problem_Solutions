@@ -252,13 +252,13 @@ int main(){
         }
         else if (operation_type == 4){
             cin>>location;
-            std::cout<<(my_list.search_at(location)->getData());
+            std::cout<<(my_list.search_at(location)->getData())<<"\n";
         }
         ListNode* p = my_list.getHead();
-        std::cout<<"--------------\n";
+        /*std::cout<<"--------------\n";
         for (int j = 0;j!=len;++j){
             std::cout<<p->getData()<<" ";
-            p = p->getNext();
+            p = p->getNext();*/
         }
      
 
