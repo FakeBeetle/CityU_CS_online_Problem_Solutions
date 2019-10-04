@@ -1,0 +1,51 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\title{fjiowaefjio}
+\author{1983nianxiaoxiang}
+\date{October 2019}
+
+
+\begin{document}\large
+Assume the load factor is $ \alpha = \frac{m}{n} $, the random variable $X$ denotes the number of slots hit until an empty slot.
+Assume $n >= m+3$
+
+$$P(X = k) = \frac{\binom{n-k}{m-k+1}}{\binom{n}{m}}\\ $$
+
+$$E(X) = \Sigma_{k = 1}^{m + 1} kP(X = k)\\$$
+$$= \frac{\Sigma_{k = 1}^{m+1}k\binom{n-k}{m-k+1}}{\binom{n}{m}}\\$$
+$$= \frac{\Sigma_{l = 1}^{m+1}\Sigma_{k = l}^{m+1}\binom{n-k}{m-k+1}}{\binom{n}{m}}$$
+$$= \frac{\Sigma_{l = 1}^{m+1}\Sigma_{k = l}^{m+1}\binom{n-k}{m-k+1}}{\binom{n}{m}}$$
+$$= \frac{\Sigma_{l = 1}^{m+1}\Sigma_{t = 0}^{m+1-l}\binom{n-m-1+t}{t}}{\binom{n}{m}}$$   
+
+As we have $$\binom{n-1}{k-1} + \binom{n-1}{k} = \binom{n}{k}$$,
+$$\Sigma_{t = 0}^{m+1-l}\binom{n-m-1+t}{t}$$
+$$= \binom{n-m-1}{0} + \binom{n-m}{1} + ... + \binom{n-l}{m-1+l}$$
+$$= \binom{n-m-1}{0} - \binom{n-m-1}{1} + \binom{n-m-1}{1} + \binom{n-m}{1} + ... + \binom{n-l}{m-1+l}$$
+$$= \binom{n-m-1}{0} - \binom{n-m-1}{1} + \binom{n-l}{m+2-l}$$
+$$= m+2-n + \binom{n-l}{m+2-l}$$
+Again, we use the same trick, and we get
+$$\Sigma_{l = 1}^{m+1}\Sigma_{t = 0}^{m+1-l}\binom{n-m-1+t}{t}$$  
+$$ = n(m+2-n)+1-\frac{(n-m-1)(n-m)}{2}+\binom{n-1}{m+2}$$
+$$ E(X) = O(\frac{\binom{n-1}{m+2}}{\binom{n}{m}})$$
+$$=O(\frac{\frac{(n-1)!}{(m+2)!(n-m-3)!}}{\frac{n!}{(n-m)!m!}})$$
+$$=O(\frac{(1-\alpha)n((1-\alpha)n-1)((1-\alpha)n-2)}{n(\alpha n+1)(\alpha n+2)})$$
+$$=O(\frac{(1-\alpha)^{2}n}{\alpha^{2} n}) = O(1)$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
