@@ -24,47 +24,49 @@ void multiflip(int chess[][10], int rows, int cols, int flipped_code, bool row_f
 }
 
 int main() {
-	int a[1000][10] = { 0 };
-	int n;//rows
-	int m;//cols
-	cin >> n;
-	cin >> m;
-	int line;
-	for (int i = 0; i != n; ++i) {
-		cin >> line;
-		for (int j = 0; j != m; ++j) {
-			a[i][j] = line % 10;
-			line = line / 10;
+	while(!cin.eof()) {
+		int a[1000][10] = {0};
+		int n;//rows
+		int m;//cols
+		cin >> n;
+		cin >> m;
+		int line;
+		for (int i = 0; i != n; ++i) {
+			cin >> line;
+			for (int j = 0; j != m; ++j) {
+				a[i][j] = line % 10;
+				line = line / 10;
+			}
 		}
-	}
-	int initial_state[1000][10];
-	for (int i = 0; i != n; ++i) {
-		for (int j = 0; j != n; ++j)
-			initial_state[i][j] = a[i][j];
-	}
-	int max = 0;
-	for (int k = 0; k != pow(2, m); ++k) {
-		//reset 
+		int initial_state[1000][10];
 		for (int i = 0; i != n; ++i) {
 			for (int j = 0; j != n; ++j)
-				a[i][j] = initial_state[i][j];
+				initial_state[i][j] = a[i][j];
 		}
-		int heads = 0;
-		multiflip(a, n, m, k, 0);
-		//
-		for (int i = 0; i != n; ++i) {
-			int cnt = 0;
-			for (int j = 0; j != m; ++j)
-				cnt += a[i][j];
-			if (cnt < m / 2.0) {
-				flip(a, n, m, i, 1);
-				cnt = m - cnt;
+		int max = 0;
+		for (int k = 0; k != pow(2, m); ++k) {
+			//reset
+			for (int i = 0; i != n; ++i) {
+				for (int j = 0; j != n; ++j)
+					a[i][j] = initial_state[i][j];
 			}
-			heads += cnt;
+			int heads = 0;
+			multiflip(a, n, m, k, 0);
+			//
+			for (int i = 0; i != n; ++i) {
+				int cnt = 0;
+				for (int j = 0; j != m; ++j)
+					cnt += a[i][j];
+				if (cnt < m / 2.0) {
+					flip(a, n, m, i, 1);
+					cnt = m - cnt;
+				}
+				heads += cnt;
+			}
+			if (heads > max)
+				max = heads;
 		}
-		if (heads > max)
-			max = heads;
+		cout << max <<"\n";
 	}
-	system("pause");
 	return 0;
 }
