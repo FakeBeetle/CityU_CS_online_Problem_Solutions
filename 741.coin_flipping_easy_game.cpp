@@ -24,7 +24,7 @@ void multiflip(int chess[][10], int rows, int cols, int flipped_code, bool row_f
 }
 
 int main() {
-	while(!cin.eof()) {
+	do{
 		int a[1000][10] = {0};
 		int n;//rows
 		int m;//cols
@@ -67,6 +67,6 @@ int main() {
 				max = heads;
 		}
 		cout << max <<"\n";
-	}
+	} while (!cin.eof());
 	return 0;
 }
