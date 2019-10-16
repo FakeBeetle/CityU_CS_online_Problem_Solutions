@@ -1,4 +1,9 @@
-#include"Shortcut.h"
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <map>
+#include <string>
+using namespace std;
 int max(vector<int> A) {
 	int maximum = *A.begin();
 	for (vector<int>::iterator iter = A.begin(); iter != A.end(); ++iter) {
