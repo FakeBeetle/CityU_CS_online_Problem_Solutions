@@ -1,0 +1,33 @@
+//string
+#include<string>
+using std::string;
+
+//input and output
+#include<iostream>
+using std::cin;
+using std::cout;
+using std::getline;//included in <string>
+
+
+//math
+#include<cmath>
+#include<algorithm>
+
+//顺序容器
+#include<vector>
+using std::vector;
+#include<list>
+using std::list;
+#include<deque>
+using std::deque
+
+//适配器
+#include<stack>
+using std::stack;
+
+//关联容器
+#include<utility>
+using std::pair;
+#include<map>
+using std::map;
+
