@@ -19,7 +19,7 @@ using std::vector;
 #include<list>
 using std::list;
 #include<deque>
-using std::deque
+using std::deque;
 
 //适配器
 #include<stack>
