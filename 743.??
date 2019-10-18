@@ -1,0 +1,84 @@
+/*****************************************
+ * (This comment block is added by the Judge System)
+ * Submission ID: 90632
+ * Submitted at:  2019-10-15 17:09:19
+ *
+ * User ID:       711
+ * Username:      55204208
+ * Problem ID:    743
+ * Problem Name:  Syntax Checker
+ */
+
+#include <stack>
+#include <string>
+#include <iostream>
+#include <map>
+#include <vector>
+#include <utility>
+#define SUCCESS 0
+using std::cin;
+using std::cout;
+using std::stack;
+using std::string;
+using std::vector;
+using std::pair;
+using std::getline;
+bool char_in_str(string s,char a) {
+	for (int i = 0; i != s.length(); i++)
+		if (a == s[i])
+			return true;
+	return false;
+}
+bool flag(string s) {
+	return char_in_str(s, '(') || char_in_str(s, ')') || char_in_str(s, '[') || char_in_str(s, ']') || char_in_str(s, '{') || char_in_str(s, '}');
+}
+int find_unmatched(string s) {
+	stack<pair<char, int>> opening_brackets;
+	stack<pair<char, int>> closing_brackets;
+	for (int i = s.length() - 1; i != -1;--i) {
+		if (s.at(i) == '(' || s.at(i) == '[' || s.at(i) == '{') {
+			opening_brackets.push(pair<char, int>(s.at(i), i));
+		}
+		if (s.at(i) == ')' || s.at(i) == ']' || s.at(i) == '}') {
+			closing_brackets.push(pair<char, int>(s.at(i), i));
+		}
+		reverse(closing_brackets);
+		while () {
+			stack<pair<char, int>> temp_closing();
+			stack<pair<char, int>> temp_opening();
+			op_brac = opening_brackets.top();
+			cl_brac = closing_brackets.top();
+			while (op_brac.second < cl_brac.second&&!closing_brackets.empty()&&(op_brac.first != cl_brac.first)) {
+				temp_closing.push(closing_brackets.top());
+				closing_brackets.pop();
+				cl_brac = closing_brackets.top();
+			}
+			if (!closing_brackets.empty()) {
+				opening_brackets.pop();
+				closing_brackets.pop();
+			}
+			else
+				unmatched_opening = op_brac();
+
+		}
+	}
+	if (visited_brackets.empty()) {
+		return SUCCESS;//
+	}
+	else {
+		return 
+	}
+}
+int main() {
+	string text;
+	while (getline(cin, text)) {
+		int x = find_unmatched(text);
+		if (x)
+			cout << x << "\n";
+		else {
+			if (flag(text))
+				cout << "Success\n";
+		}
+	}
+	return 0;
+}
