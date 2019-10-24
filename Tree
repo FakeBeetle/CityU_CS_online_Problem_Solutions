@@ -1,0 +1,163 @@
+#include <iostream>
+using namespace std;
+template <typename T>
+class Binary_Tree_Node{
+public:
+    Binary_Tree_Node(T info){
+        this->info = info;
+    }
+    T info;
+    Binary_Tree_Node* left;
+    Binary_Tree_Node* right;
+    Binary_Tree_Node* parent;
+};
+template <typename mytype>
+class Binary_Tree{//发现从Tree继承难度很大，还不如重新写
+public:
+    Binary_Tree(){};
+    Binary_Tree(Binary_Tree_Node<mytype>* root){
+        this->root = root;
+    }
+    Binary_Tree_Node<mytype>* root;
+    int distance_to_ground(Binary_Tree_Node<mytype>* node){
+        if (node == NULL)
+            return 0;
+        else if(node->left==NULL && node->right == NULL)
+            return 0;
+        else
+            return 1+max(distance_to_ground(node->left),distance_to_ground(node->right));
+    };
+    int height(){
+        return distance_to_ground(root);
+    };
+    int depth(Binary_Tree_Node<mytype>* node){
+        return height()-distance_to_ground(node);
+    }
+};
+
+template <typename mytype>
+class BST:Binary_Tree<mytype>{//发现从Tree继承难度很大，还不如重新写
+public:
+    BST(){};
+    BST(Binary_Tree_Node<mytype>* root){
+        this->root = root;
+    }
+    void insert(mytype new_info){
+        Binary_Tree_Node<mytype>* p = this->root;
+        if (p == NULL){
+            Binary_Tree_Node<mytype> *newnode = new Binary_Tree_Node<mytype>;
+            this->root = newnode;
+            return;
+        }
+        while(p->left||p->right){
+            if (new_info > p->info){
+                if (p->right)
+                    p = p->right;
+                else {
+                    Binary_Tree_Node<mytype> *newnode = new Binary_Tree_Node<mytype>;
+                    p->right = newnode;
+                    newnode ->parent = p;
+                    break;
+                }
+            }
+            else if (new_info<p->info){
+                if (p->left)
+                    p = p->left;
+                else {
+                    Binary_Tree_Node<mytype> *newnode = new Binary_Tree_Node<mytype>;
+                    p->right = newnode;
+                    newnode ->parent = p;
+                    break;
+                }
+            }
+            else
+                ;//equal case unhandled here, customized during quiz
+        }
+    }
+    Binary_Tree_Node<mytype>* search(mytype target){
+        Binary_Tree_Node<mytype>* p = this->root;
+        while(p->left||p->right){
+            if (target > p->info){
+                if (p->right)
+                    p = p->right;
+                else {
+                    return NULL;
+                }
+            }
+            else if (target<p->info) {
+                if (p->left)
+                    p = p->left;
+                else {
+                    return NULL;
+                }
+            }
+            else
+                return p;
+        }
+    }
+    Binary_Tree_Node<mytype>* successor(Binary_Tree_Node<mytype>* p){
+        if (p->right == NULL)
+            return NULL;
+        else
+            p = p->right;
+            while(p->left!=NULL){
+                p = p->left;
+            }
+            return p;
+    }
+    void erase(Binary_Tree_Node<mytype>* trash){
+        //case1:
+        if (trash->left==NULL && trash->right == NULL){
+            if (trash->parent!=NULL){
+                if (trash->parent->left == trash)
+                    trash->parent->left = NULL;
+                else
+                    trash->parent->right = NULL;
+
+            }
+            else
+                this->root = NULL;
+        }
+        // case2:
+        else if (trash->left != NULL &&trash->right == NULL){
+            if (trash->parent != NULL){
+                if (trash->parent->left == trash)
+                    trash->parent->left = trash->left;
+                else
+                    trash->parent->right = trash->left;
+            }
+            else
+                this->root = trash->left;
+        }
+        //case2:
+        else if (trash->left == NULL &&trash->right != NULL){
+            if (trash->parent != NULL){
+                if (trash->parent->left == trash)
+                    trash->parent->left = trash->right;
+                else
+                    trash->parent->right = trash->right;
+            }
+            else
+                this->root = trash->right;
+        }
+        //case3:
+        else {
+            Binary_Tree_Node<mytype> *p = successor(trash);
+            trash->info = successor(trash)->info;
+            erase(p);
+        }
+    }
+};
+
+template<typename mytype>
+class Tree{
+public:
+    Tree(int max_branches){
+
+    }
+    vector<mytype> chidren;
+
+}
+int main(){
+    return 0;
+}
