@@ -1,68 +1,132 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <cmath>
-enum color{black = '0',white,uncertain};
+enum color { BLACK = '0', WHITE, UNCERTAIN };
 using namespace std;
-void flip(int r,int c,vector<string> &chess){
-    if(chess[r][c]=='0')
-        chess[r][c] = '1';
-    else
-        chess[r][c] = '0';
+void flip(int r, int c, vector<string> &chess) {
+	if (chess[r][c] == '0')
+		chess[r][c] = '1';
+	else
+		chess[r][c] = '0';
 }
-class Node{
-public:
-    Node(char color){
-        this->color = color;
-    }
-    int left_up_most;
-    int length;
-    char color;
-    Node* EN;
-    Node* ES;
-    Node* WN;
-    Node* WS;
-};
-class QuadTree{
-public:
-    int num_of_nodes(){
-        if (root == NULL)
-            return 0;
-        else
-            return 1+QuadTree(root->EN).num_of_nodes()+QuadTree(root->ES).num_of_nodes()
-            +QuadTree(root->WS).num_of_nodes() + QuadTree(root->WN).num_of_nodes();
-
-    }
-    QuadTree(Node* root){
-        this->root = root;
-    }
-    Node* root;
-
-
-};
-int main(){
-    int T;
-    cin >> T;
-    for (int i = 0;i!=T;++i){
-        vector<string> chess;
-        int k;
-        cin >> k;
-        string line;
-        for (int j= 0;j!=pow(2,k);++j){
-            cin >> line;
-            chess.push_back(line);
-        }
-        int m;
-        cin >> m;
-        for (int j = 0;j=m;++j){
-            int r;
-            int c;
-            cin >> r;
-            cin >> c;
-            flip(r,c,chess);
-        }
-
-
-    }
-    return 0;
+char color_of_part(vector<string> &A, int ro, int co, int length) {
+	char measurement = A[ro][co];
+	for (int i = ro; i != ro+length; ++i) {
+		for (int j = co; j != co+length; ++j) {
+			if (measurement != A[i][j])
+				return UNCERTAIN;
+		}
+	}
+	return measurement;
 }
+class Node {
+public:
+	Node(int r,int c,int length,char color) {
+		this->r = r;
+		this->c = c;
+		this->length = length;
+		this->color = color;
+	}
+	int r;
+	int c;
+	int length;
+	char color;
+	Node* parent;
+	Node* EN;
+	Node* ES;
+	Node* WN;
+	Node* WS;
+};
+class QuadTree {
+public:
+	int num_of_nodes() {
+		if (root == NULL)
+			return 0;
+		else
+			return 1 + QuadTree(root->EN).num_of_nodes() + QuadTree(root->ES).num_of_nodes()
+			+ QuadTree(root->WS).num_of_nodes() + QuadTree(root->WN).num_of_nodes();
 
+	}
+	QuadTree(Node* root) {
+		this->root = root;
+	}
+	Node* root;
+
+
+};
+QuadTree make_tree(vector<string> &A, int ro, int co, int length) {
+	if (color_of_part(A, ro, co, length)!=UNCERTAIN) {
+		Node* newnode = new Node(ro,co,length,A[ro][co]);
+		return QuadTree(newnode);
+	}
+	else {
+		Node* newnode = new Node(ro,co,length,UNCERTAIN);
+		Node* eastnorth = make_tree(A, ro, co + length / 2, length / 2).root;
+		Node* eastsouth = make_tree(A, ro + length / 2, co + length / 2, length / 2).root;
+		Node* westnorth = make_tree(A, ro, co, length / 2).root;
+		Node* westsouth = make_tree(A, ro + length / 2, co, length / 2).root;
+		newnode->EN = eastnorth;
+		newnode->EN->parent = newnode;
+		newnode->ES = eastsouth;
+		newnode->ES->parent = newnode;
+		newnode->WS = westsouth;
+		newnode->WS->parent = newnode;
+		newnode->WN = westnorth;
+		newnode->WN->parent = newnode;
+		return QuadTree(newnode);
+	}
+}
+Node* search(int r, int c,Node* p) {
+	if (r<p->r || r>p->r + p->length || c<p->c || c > p->c + p->length) {
+		return NULL;
+	}
+	if (r<p->r+p->length/2) {
+		if (c < p->r + p->length / 2) {
+			return search(r, c, p->WN);
+		}
+		else
+			return search(r, c, p->EN);
+	}
+	else {
+		if (c < p->r + p->length / 2) {
+			return search(r, c, p->WS);
+		}
+		else {
+			return search(r, c, p->ES);
+		}
+	}
+
+}
+int main() {
+	int T;
+	cin >> T;
+	for (int i = 0; i != T; ++i) {
+		vector<string> chess;
+		int k;
+		cin >> k;
+		string line;
+		for (int j = 0; j != pow(2, k); ++j) {
+			cin >> line;
+			chess.push_back(line);
+		}
+		QuadTree initial_tree = make_tree(chess,0,0,pow(2,k));
+		int m;
+		cin >> m;
+		for (int j = 0; j = m; ++j) {
+			int r;
+			int c;
+			cin >> r;
+			cin >> c;
+			
+			Node* target = search(r, c, initial_tree.root);
+			flip(r, c, chess);
+
+
+
+		}
+
+
+	}
+	return 0;
+}
