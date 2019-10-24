@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+enum color{black = '0',white,uncertain};
+using namespace std;
+void flip(int r,int c,vector<string> &chess){
+    if(chess[r][c]=='0')
+        chess[r][c] = '1';
+    else
+        chess[r][c] = '0';
+}
+class Node{
+public:
+    Node(char color){
+        this->color = color;
+    }
+    int left_up_most;
+    int length;
+    char color;
+    Node* EN;
+    Node* ES;
+    Node* WN;
+    Node* WS;
+};
+class QuadTree{
+public:
+    int num_of_nodes(){
+        if (root == NULL)
+            return 0;
+        else
+            return 1+QuadTree(root->EN).num_of_nodes()+QuadTree(root->ES).num_of_nodes()
+            +QuadTree(root->WS).num_of_nodes() + QuadTree(root->WN).num_of_nodes();
+
+    }
+    QuadTree(Node* root){
+        this->root = root;
+    }
+    Node* root;
+
+
+};
+int main(){
+    int T;
+    cin >> T;
+    for (int i = 0;i!=T;++i){
+        vector<string> chess;
+        int k;
+        cin >> k;
+        string line;
+        for (int j= 0;j!=pow(2,k);++j){
+            cin >> line;
+            chess.push_back(line);
+        }
+        int m;
+        cin >> m;
+        for (int j = 0;j=m;++j){
+            int r;
+            int c;
+            cin >> r;
+            cin >> c;
+            flip(r,c,chess);
+        }
+
+
+    }
+    return 0;
+}
+
