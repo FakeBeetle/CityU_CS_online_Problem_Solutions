@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+struct Node{
+    bool opening_status;
+    int weight;
+
+};
+void open_newnode(string s,int pos,vector<Node> &A){
+    Node newnode;
+    newnode.opening_status = true;
+    newnode.weight = 1;
+    A.push_back(newnode);
+    for (int i = 0;i!=pos;++i){
+        if (A[i].opening_status == true){
+            ++A[i].weight;
+        }
+    }
+}
+void close_currentnode(string s,int pos,vector<Node> &A){
+    Node position_occupier;
+    A.push_back(position_occupier);
+    vector<Node>::iterator iter = A.end()-1;
+    while(iter->opening_status == false){
+        --iter;
+    }
+    iter->opening_status = false;
+}
+int main() {
+    string s;
+    vector<Node> treenodes;
+    while(cin >> s){
+        for (int i = 0;i!=s.length();++i){
+            if (s.at(i) == '('){
+                open_newnode(s,i,treenodes);
+            }
+            else{
+                close_currentnode(s,i,treenodes);
+            }
+
+        }
+        int value = treenodes.front().weight;
+        for (vector<Node>::iterator it = treenodes.begin()+1;it!=treenodes.end();++it){
+            if (it->weight)
+                value = value^it->weight;
+        }
+        cout << value<<"\n";
+    }
+    return 0;
+}
