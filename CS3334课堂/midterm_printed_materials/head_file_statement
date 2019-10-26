@@ -1,10 +1,11 @@
 #include <string>//注意用unsigned long遍历
 #include <iostream>
 //顺序容器和关联容器
-#include <vector>
+#include <vector>//万能
 #include <list>
+#include <deque>//慎用
 #include <utility>
-#include <map>#慎用
+#include <map>//慎用
 #include <stack>
 #include <queue>
 //排序、指数等
