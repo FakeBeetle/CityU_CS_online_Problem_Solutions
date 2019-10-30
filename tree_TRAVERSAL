@@ -1,0 +1,133 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+class Node {
+public:
+	Node();
+	Node(int data) {
+		this->data = data;
+	}
+	int data;
+	Node* left;
+	Node* right;
+};
+class BST{
+public:
+	BST() {};
+	BST(Node* root) {
+		this->root = root;
+	}
+	void insert(int data) {
+		Node* p = new Node(data);
+		insert(p);
+	}
+	void insert(Node* p) {
+		if (this->root == NULL) {
+			this->root = p;
+			return;
+		}
+		Node* q = this->root;
+		while (q->left||q->right) {
+			if (p->data < q->data) {
+				if (q->left)
+					q = q->left;
+				else {
+					q->left = p;
+					break;
+				}
+			}
+			else if (p->data > q->data) {
+				if (q->right)
+					q = q->right;
+				else {
+					q->right = p;
+					break;
+				}
+			}
+			else
+				throw "I am stupid\n";
+		}
+		if (p->data < q->data)
+			q->left = p;
+		else
+			q->right = p;
+	}
+	Node* root;
+};
+void preorder(Node* p) {
+	if (p == NULL) {
+		return;
+	}
+	cout << p->data << " ";
+	preorder(p->left);
+	preorder(p->right);
+}
+void iter_preorder(Node* p) {
+	stack<Node*> A;
+	do {
+		while (p != NULL) {
+			cout << p->data<<" ";
+			A.push(p);
+			p = p->left;
+		}
+		p = A.top()->right;
+		A.pop();
+	}while(!(A.empty()&&p==NULL));
+}
+void inorder(Node* p) {
+	if (p == NULL) {
+		return;
+	}
+
+	inorder(p->left);
+	cout << p->data << " ";
+	inorder(p->right);
+}
+void iter_inorder(Node* p) {
+	stack<Node*> A;
+	//Node* predecessor;
+	do {
+		while (p != NULL) {
+			//predecessor = p;
+			A.push(p);
+			p = p->left;
+		}
+		if (!A.top()->right) {
+			cout << A.top()->data << " ";
+			A.pop();
+		}
+		p = A.top()->right;
+	} while (!(A.empty() && p == NULL));
+}
+void postorder(Node* p) {
+	if (p == NULL) {
+		return;
+	}
+	postorder(p->left);
+	postorder(p->right);
+	cout << p->data << " ";
+}
+void iter_postorder(Node* p) {
+	stack<Node*> A;
+	while (p != NULL) {
+		A.push(p);
+		p = p->left;
+	}
+	cout << A.top()->data << " ";
+}
+int main() {
+	int a[10] = {3,9,2,4,5,6,7,8,0,1};
+	BST tree;
+	for (int i = 0; i != 10; ++i) {
+		tree.insert(a[i]);
+	}
+	iter_preorder(tree.root);
+	cout << "\n";
+	iter_inorder(tree.root);
+	cout << "\n";
+	//iter_postorder(tree.root);
+
+	return 0;
+	
+
+}
